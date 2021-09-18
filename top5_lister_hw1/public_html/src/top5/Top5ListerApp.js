@@ -46,7 +46,7 @@ export class Top5ListerApp {
         let xmlhttp = new XMLHttpRequest();
         let modelToUpdate = this.model;
         xmlhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
+            if (this.readyState == 4 && this.status == 200) { //means http request has been completed and the request has succeeded
                 let lists = JSON.parse(this.responseText).top5Lists;
 
                 // GO THROUGH THE DATA AND LOAD IT INTO OUR APP
@@ -62,6 +62,8 @@ export class Top5ListerApp {
         };
         xmlhttp.open("GET", jsonFilePath, true);
         xmlhttp.send();
+
+
     }
 }
 

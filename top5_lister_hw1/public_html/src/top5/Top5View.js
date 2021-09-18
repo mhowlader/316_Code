@@ -60,11 +60,12 @@ export default class Top5View {
         this.controller.registerListSelectHandlers(newList.id);
     }
 
+    //updates the list ITEMS
     update(list) {
         for (let i = 0; i < 5; i++) {
             let item = document.getElementById("item-" + (i+1));
             item.innerHTML = "";
-            item.appendChild(document.createTextNode(list.getItemAt(i)));
+                item.appendChild(document.createTextNode(list.getItemAt(i)));
         }
     }
 
@@ -74,6 +75,7 @@ export default class Top5View {
             let item = document.getElementById("item-" + (i+1));
             item.innerHTML = "";
         }
+        document.getElementById("top5-statusbar").innerHTML = "";
     }
 
     disableButton(id) {
@@ -100,13 +102,46 @@ export default class Top5View {
         listCard.classList.remove("selected-list-card");
     }
 
+    //highlight on mouseover
+    mouseOverHighlight(listId) {
+        let listcard = document.getElementById("top5-list-" + listId);
+        listcard.classList.add("mouseover-list-card");
+    }
+ 
+    //unhighlight on mouseout
+    mouseOverUnhighlight(listId) {
+        let listcard = document.getElementById("top5-list-" + listId);
+        listcard.classList.remove("mouseover-list-card");
+    }
+
     updateToolbarButtons(model) {
         let tps = model.tps;
         if (!tps.hasTransactionToUndo()) {
+            console.log("no transaction to undo");
             this.disableButton("undo-button");
         }
         else {
+            console.log("there is a transation to undo");
             this.enableButton("undo-button");
         }   
+        if(!tps.hasTransactionToRedo()) {
+            this.disableButton("redo-button");
+        }
+        else {
+            this.enableButton("redo-button");
+        }
+
+        if (model.currentList==null) {
+            this.disableButton("close-button");
+            this.enableButton("add-list-button");
+        }
+        else {
+            this.enableButton("close-button");
+            this.disableButton("add-list-button");
+        }
+
+        
+
+
     }
 }
